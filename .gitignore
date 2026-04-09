@@ -1,0 +1,34 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+# Claude Code
+.claude/
+
+# Checkpoints (generated at runtime)
+checkpoints/
+
+# Data and logs (generated at runtime)
+data/
+logs/
+lightning_logs/
+
+# Large tensor files in example outputs (keep images/JSONLs, not model weights)
+examples/*/outputs/*.pt
+
+# Slurm output files
+slurm-*.out
+examples/*/outputs/*.log
+
+# Local submission scripts (cluster-specific, not committed)
+examples/*/submit.sh
+
+# Temporary benchmark scripts
+/bench_*.py

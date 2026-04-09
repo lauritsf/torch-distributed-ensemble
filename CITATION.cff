@@ -1,0 +1,13 @@
+cff-version: 1.2.0
+title: "torch-distributed-ensemble: Train independent deep ensemble members using PyTorch's distributed primitives"
+message: "If you use this software, please cite it using the metadata from this file."
+type: software
+authors:
+  - given-names: Laurits
+    family-names: Fredsgaard
+    orcid: "https://orcid.org/0000-0003-3891-3414"
+    affiliation: "Technical University of Denmark"
+version: 0.1.0
+date-released: "2026-04-09"
+repository-code: "https://github.com/lauritsf/torch-distributed-ensemble"
+license: MIT

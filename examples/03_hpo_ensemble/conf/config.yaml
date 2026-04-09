@@ -1,0 +1,40 @@
+defaults:
+  - override hydra/sweeper: optuna
+
+objective: ensemble  # "ensemble" (ensemble MSE) or "member" (avg member MSE)
+
+data:
+  dataset: wine  # UCI dataset name
+  n_train: null  # null = 80% split
+  batch_size: 32
+
+model:
+  hidden_size: 128
+  num_layers: 2
+  activation: tanh  # relu, tanh, gelu, silu
+  dropout: 0.0
+
+training:
+  lr: 3e-3
+  weight_decay: 1e-5  # Ensemble-optimal (53,367x lower than member-optimal 0.534)
+  use_cosine_scheduler: false
+  max_epochs: 400
+  base_seed: 42
+  data_seeds: [0, 1, 2]  # average over 3 train/val splits for robustness
+
+ensemble:
+  num_members: 8
+
+hydra:
+  run:
+    dir: examples/03_hpo_ensemble/outputs/hydra/${now:%Y-%m-%d}/${now:%H-%M-%S}
+  sweep:
+    dir: examples/03_hpo_ensemble/outputs/hydra/multirun/${now:%Y-%m-%d}/${now:%H-%M-%S}
+  sweeper:
+    study_name: "hpo_${objective}"
+    sampler:
+      seed: 0
+    direction: minimize
+    n_trials: 40
+    params:
+      training.weight_decay: tag(log, interval(1e-5, 30.0))
