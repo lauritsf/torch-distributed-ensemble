@@ -1,6 +1,6 @@
 [project]
 name = "torch-distributed-ensemble"
-version = "0.1.0"
+version = "0.1.1"
 description = "Train independent deep ensemble members using PyTorch's distributed primitives"
 readme = "README.md"
 requires-python = ">=3.12"
