@@ -19,6 +19,21 @@ def test_strategy_no_sync():
     assert torch.equal(result, t)
 
 
+def test_strategy_reduce_boolean_decision_is_local():
+    strategy = DistributedEnsembleStrategy()
+    assert strategy.reduce_boolean_decision(True) is True
+    assert strategy.reduce_boolean_decision(False) is False
+    assert strategy.reduce_boolean_decision(True, all=False) is True
+
+
+def test_strategy_remove_checkpoint_bypasses_rank_zero_gate(tmp_path):
+    strategy = DistributedEnsembleStrategy()
+    f = tmp_path / "dummy.ckpt"
+    f.write_bytes(b"x")
+    strategy.remove_checkpoint(f)
+    assert not f.exists()
+
+
 # ---------------------------------------------------------------------------
 # End-to-end test: per-rank weights are preserved after reloading checkpoints
 # ---------------------------------------------------------------------------

@@ -37,3 +37,12 @@ class DistributedEnsembleStrategy(DDPStrategy):
 
     def save_checkpoint(self, checkpoint, filepath, storage_options=None):
         self.checkpoint_io.save_checkpoint(checkpoint, filepath, storage_options=storage_options)
+
+    def reduce_boolean_decision(self, decision: bool, all: bool = True) -> bool:
+        # Each rank decides independently; the base class sums across ranks and
+        # collapses local True to False because our reduce is a no-op.
+        return decision
+
+    def remove_checkpoint(self, filepath) -> None:
+        # Per-rank files: every rank must clean up its own, not just rank 0.
+        self.checkpoint_io.remove_checkpoint(filepath)
